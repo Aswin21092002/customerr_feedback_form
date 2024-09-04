@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        /* Existing styles remain unchanged */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            color: #333;
+            position: relative;
+            top: 0;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #004080;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #004080;
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button#startRecording {
+            background-color: #004080;
+            float: left;
+            margin-right: 10px;
+        }
+
+        button#startRecording:hover {
+            background-color: #003366;
+        }
+
+        button#stopRecording {
+            background-color: #dc3545;
+            display: none;
+            float: left;
+            margin-right: 10px;
+        }
+
+        button#stopRecording:hover {
+            background-color: #c82333;
+        }
+
+        button#deleteRecording {
+            background-color: #dc3545;
+            color: #fff;
+            display: none;
+            margin-top: 10px;
+        }
+
+        button#deleteRecording:hover {
+            background-color: #c82333;
+        }
+
+        button#submit {
+            background-color: #004080;
+            position: relative;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        button#submit:hover {
+            background-color: #003366;
+        }
+
+        #audioPlayback {
+            display: none;
+            margin: 10px 0;
+        }
+
+        .date-fields {
+            display: flex;
+            gap: 20px;
+        }
+
+        .date-fields > div {
+            flex: 1;
+        }
+
+        .phone-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .dial-code-select {
+            flex: 1;
+        }
+
+        .phone-container input {
+            flex: 3;
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rating-options label {
+            margin-right: 10px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .form-buttons button {
+            margin-left: 10px;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .description-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .description-controls button {
+            margin: 5px;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            font-size: 18px;
+            color: #004080;
+            margin-top: 20px;
+        }
+
+        /* Style for the Submit button container at the bottom-right corner */
+
+To ensure the "Submit" button is positioned in the bottom-right corner of the screen and remains visible, you can use the following CSS. This will place the button in the fixed position at the bottom-right corner of the viewport:
+
+Updated CSS
+css
+Copy code
+/* Style for the audio controls container */
+.audio-controls {
+    position: fixed;
+    bottom: 60px; /* Position above the Submit button */
+    left: 20px;   /* Distance from the left edge of the viewport */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000; /* Ensure it stays above other elements */
+}
+
+/* Style for the Delete Recording button */
+.audio-controls #deleteRecording {
+    margin-bottom: 10px; /* Space between Delete button and audio controls */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #dc3545; /* Example background color */
+    color: white; /* Example text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: none; /* Initially hidden */
+}
+
+.audio-controls #deleteRecording:hover {
+    background-color: #c82333; /* Darker background on hover */
+}
+
+.audio-controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px 0; /* Space between buttons */
+}
+
+/* Style for the audio playback */
+#audioPlayback {
+    display: none; /* Initially hidden */
+    width: 100%;
+}
+
+/* Style for the Submit button container at the bottom of the screen */
+.form-buttons.submit-button-container {
+    position: fixed;
+    bottom: 0;    /* Align to the bottom of the viewport */
+    left: 0;      /* Align to the left edge of the viewport */
+    right: 0;     /* Align to the right edge of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;  /* Adjust width based on content */
+    z-index: 1000; /* Ensure it stays above other elements */
+}
+
+/* Style for the Submit button */
+.form-buttons #submit {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff; /* Example background color */
+    color: white; /* Example text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners for the button */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.form-buttons #submit:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}
+
+
+
+        @media (max-width: 768px) {
+            .date-fields {
+                flex-direction: column;
+            }
+
+            .phone-container {
+                flex-direction: column;
+            }
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="https://srikrishnasweets.com/cdn/shop/files/SKS_SriKrishnaSweets_Sri_Krishna_Sweets_mysurpa_Muralis_logo_1280x356_-_SKS.png?v=1711347041&width=225" 
+                 alt="Sri Krishna Sweets Logo" 
+                 class="logo-image">
+        </div>
+    </header>
+
+    <div class="content">
+        <h1>Welcome to Sri Krishna Sweets</h1>
+        <p>We value your feedback and are here to help. Please navigate to the feedback form to submit your response.</p>
+    </div>
+
+    <div class="container">
+        <h1>Feedback Form</h1>
+        <form id="feedbackForm" action="submit_feedback.php" method="POST">
+
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="id_phone">Phone</label>
+<div class="phone-container">
+    <select aria-label="Select Country" class="dial-code-select" name="dial_code">
+        <option data-country-code="IN" value="+91">India +91</option>
+        <!-- Add more options as needed -->
+    </select>
+    <input type="tel" name="phone" id="id_phone" placeholder="Enter your phone number" maxlength="10" required>
+</div>
+
+
+            <label for="email">Email (Optional)</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address">
+
+            <label for="branch">Branch</label>
+            <select id="branch" name="branch" required>
+                <option value="" aria-placeholder="Please Select">Please Select</option>
+                <option value="Adayar">Adayar</option>
+                <option value="Alwarpet">Alwarpet</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label>Value for Money*</label>
+            <div class="rating-options">
+                <label><input type="radio" name="value_for_money" value="Excellent" required> Excellent</label>
+                <label><input type="radio" name="value_for_money" value="Satisfied"> Satisfied</label>
+                <label><input type="radio" name="value_for_money" value="To be Improved"> To be Improved</label>
+            </div>
+
+            <label>Packaging*</label>
+            <div class="rating-options">
+                <label><input type="radio" name="packaging" value="Excellent" required> Excellent</label>
+                <label><input type="radio" name="packaging" value="Satisfied"> Satisfied</label>
+                <label><input type="radio" name="packaging" value="To be Improved"> To be Improved</label>
+            </div>
+
+            <label>Quality*</label>
+            <div class="rating-options">
+                <label><input type="radio" name="quality" value="Excellent" required> Excellent</label>
+                <label><input type="radio" name="quality" value="Satisfied"> Satisfied</label>
+                <label><input type="radio" name="quality" value="To be Improved"> To be Improved</label>
+            </div>
+
+            <label>Display*</label>
+            <div class="rating-options">
+                <label><input type="radio" name="display" value="Excellent" required> Excellent</label>
+                <label><input type="radio" name="display" value="Satisfied"> Satisfied</label>
+                <label><input type="radio" name="display" value="To be Improved"> To be Improved</label>
+            </div>
+
+            <label>Variety*</label>
+            <div class="rating-options">
+                <label><input type="radio" name="variety" value="Excellent" required> Excellent</label>
+                <label><input type="radio" name="variety" value="Satisfied"> Satisfied</label>
+                <label><input type="radio" name="variety" value="To be Improved"> To be Improved</label>
+            </div>
+
+            <label for="any other comments">Any other comments</label>
+            <textarea id="any other comments" name="any other comments" rows="4" placeholder="Enter your comments here..."></textarea>
+            
+            <label for="employee id & name">Employee Name & ID</label>
+            <input type="employee id & name" id="employee id & name" name="employee id & name" placeholder=" ">
+
+            <div class="date-fields">
+                <div>
+                    <label for="birthday">Birthday</label>
+                    <input type="date" id="birthday" name="birthday">
+                </div>
+                <div>
+                    <label for="anniversary">Date of Anniversary</label>
+                    <input type="date" id="anniversary" name="anniversary">
+                </div>
+            </div>
+
+            <!-- Voice Recording Controls -->
+            <div class="audio-controls">
+                <button type="button" id="startRecording">Start Recording</button>
+                <button type="button" id="stopRecording">Stop Recording</button>
+                <button type="button" id="deleteRecording">Delete Recording</button>
+                <audio id="audioPlayback" controls></audio>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" id="submit">Submit Feedback</button>
+            </div>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            Successfully Submitted!
+        </div>
+    </div>
+
+    <script>
+        // Voice recording functionality
+let mediaRecorder;
+let audioChunks = [];
+
+document.getElementById('startRecording').addEventListener('click', async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = document.getElementById('audioPlayback');
+            audio.src = audioUrl;
+            audio.style.display = 'block';
+            document.getElementById('deleteRecording').style.display = 'block';
+            audioChunks = []; // Clear chunks after stop
+        };
+
+        mediaRecorder.start();
+        document.getElementById('startRecording').style.display = 'none';
+        document.getElementById('stopRecording').style.display = 'block';
+    } catch (error) {
+        console.error('Error accessing microphone:', error);
+        alert('Unable to access microphone. Please check your permissions.');
+    }
+});
+
+document.getElementById('stopRecording').addEventListener('click', () => {
+    if (mediaRecorder) {
+        mediaRecorder.stop();
+        document.getElementById('startRecording').style.display = 'block';
+        document.getElementById('stopRecording').style.display = 'none';
+    } else {
+        console.error('MediaRecorder is not initialized.');
+    }
+});
+
+document.getElementById('deleteRecording').addEventListener('click', () => {
+    const audio = document.getElementById('audioPlayback');
+    audio.style.display = 'none';
+    document.getElementById('deleteRecording').style.display = 'none';
+});
+
+        document.getElementById('feedbackForm').addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent form submission to the server
+            document.getElementById('successMessage').style.display = 'block';
+            setTimeout(() => {
+                window.location.href = 'thank_you.html'; // Redirect to the confirmation page
+            }, 2000); // Redirect after 2 seconds
+        });
+    </script>
+</body>
+</html>
